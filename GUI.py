@@ -22,6 +22,8 @@ def submit():
     requiredDuration = duration.get()
     createSubClips(source=source,destination=destination,requiredDuration=requiredDuration)
 
+def zip():
+    createZip(destinationFolderPath.get())
 Label(root,text="Source video file :").grid(row=0,column=0)
 Button(root,text="Choose file",command=setSourceFile).grid(row=0,column=1)
 Label(root,textvariable = sourceFilePath).grid(row=0,column=2)
@@ -34,7 +36,7 @@ Label(root,text="Subclip duration:").grid(row=2,column=0)
 Entry(root,textvariable = duration).grid(row=2,column=1)
 
 Button(root,text="Generate clips",command=submit).grid(row=3,column=0)
-Button(root,text="Create ZIP file",command=createZip).grid(row=3,column=1)
+Button(root,text="Create ZIP file",command=zip).grid(row=3,column=1)
 Button(root,text="Exit",command=exit).grid(row=3,column=2)
 
 root.mainloop()
