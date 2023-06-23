@@ -32,8 +32,9 @@ Label(root,textvariable = destinationFolderPath).grid(row=1,column=2,padx=3)
 
 Label(root,text="Subclip duration:").grid(row=2,column=0)
 Entry(root,textvariable = duration).grid(row=2,column=1)
-Button(root,text="Generate clips",command=submit).grid(row=3,column=0,columnspan=3)
+
+Button(root,text="Generate clips",command=submit).grid(row=3,column=0)
+Button(root,text="Create ZIP file",command=createZip).grid(row=3,column=1)
+Button(root,text="Exit",command=exit).grid(row=3,column=2)
 
 root.mainloop()
-# createSubClips("C:\\Users\\KIIT\\Documents\\Python\\Video editing in python\\Input.mp4","C:\\Users\\KIIT\\Documents\\Python\\Video editing in python\\Destination",30)
-# createZip()
