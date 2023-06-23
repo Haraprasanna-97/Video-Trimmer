@@ -4,7 +4,6 @@ def createSubClips(source,destination,requiredDuration):
     subClips = []
     inputVideo =  VideoFileClip(source)
     videoDuraion = inputVideo.duration # in seconds
-    # requiredDuration = int(input("Enter clip size in seconds : ")) #in seconds
     if requiredDuration <= videoDuraion:
         start = 0
         end = requiredDuration
@@ -21,7 +20,7 @@ def createSubClips(source,destination,requiredDuration):
             if start < videoDuraion :
                 subClip = inputVideo.subclip(start,end)
                 subClips.append(subClip)
-        videoFileName = inputVideo.filename.split(".")[0].split("\\")[-1]
+        videoFileName = inputVideo.filename.split(".")[0].split("/")[-1]
         totalClips = len(subClips)
         for i in range(totalClips):
             subClips[i].write_videofile(f"{destination}\\{videoFileName} (part {i+1} of {totalClips}).mp4")

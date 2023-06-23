@@ -27,8 +27,8 @@ Button(root,text="Choose file",command=setSourceFile).grid(row=0,column=1)
 Label(root,textvariable = sourceFilePath).grid(row=0,column=2)
 
 Label(root,text="Destination Folder :").grid(row=1,column=0)
-Button(root,text="Choose folder :", command=setDestinationFolder).grid(row=1,column=1)
-Label(root,textvariable = destinationFolderPath).grid(row=1,column=2)
+Button(root,text="Choose folder", command=setDestinationFolder).grid(row=1,column=1)
+Label(root,textvariable = destinationFolderPath).grid(row=1,column=2,padx=3)
 
 Label(root,text="Subclip duration:").grid(row=2,column=0)
 Entry(root,textvariable = duration).grid(row=2,column=1)
