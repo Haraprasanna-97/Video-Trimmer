@@ -2,5 +2,6 @@
 *.mp3
 *.zip
 test.py
+test.ipynb
 __pycache__
 .vscode

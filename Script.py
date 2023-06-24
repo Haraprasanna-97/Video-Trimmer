@@ -4,6 +4,7 @@ def createSubClips(source,destination,requiredDuration):
     subClips = []
     inputVideo =  VideoFileClip(source)
     videoDuraion = inputVideo.duration # in seconds
+    print("Video duration",videoDuraion)
     if requiredDuration <= videoDuraion:
         start = 0
         end = requiredDuration
