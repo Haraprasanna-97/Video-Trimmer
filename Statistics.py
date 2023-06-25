@@ -13,6 +13,9 @@ class Statistics:
     def set_subclips_processed(self,subclips_processed):
         self.subclips_processed = subclips_processed
     
+    def get_subclips_processed(self):
+        return self.subclips_processed
+    
     def get_processed_percentage(self):
         return round((self.subclips_processed / self.total_subclips) * 100)
     
