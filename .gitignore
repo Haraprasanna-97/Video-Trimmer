@@ -2,6 +2,7 @@
 *.mp3
 *.zip
 *.txt
+*.bat
 test.py
 test.ipynb
 __pycache__
