@@ -8,7 +8,7 @@ root.title("Video trimmer")
 
 sourceFilePath = StringVar()
 destinationFolderPath = StringVar()
-duration = IntVar()
+subclipDuration = IntVar()
 
 def setSourceFile():
     sourceFilePath.set(filedialog.askopenfilename())
@@ -19,7 +19,7 @@ def setDestinationFolder():
 def submit():
     source = sourceFilePath.get()
     destination = destinationFolderPath.get()
-    requiredDuration = duration.get()
+    requiredDuration = subclipDuration.get()
     createSubClips(source=source,destination=destination,requiredDuration=requiredDuration)
 
 def zip():
@@ -34,7 +34,7 @@ Button(root,text="Choose folder", command=setDestinationFolder).grid(row=1,colum
 Label(root,textvariable = destinationFolderPath).grid(row=1,column=2,padx=3)
 
 Label(root,text="Subclip duration (in seconds):").grid(row=2,column=0)
-Entry(root,textvariable = duration).grid(row=2,column=1)
+Entry(root,textvariable = subclipDuration).grid(row=2,column=1)
 
 Button(root,text="Generate clips",command=submit).grid(row=3,column=0)
 Button(root,text="Create ZIP file",command=zip).grid(row=3,column=1)

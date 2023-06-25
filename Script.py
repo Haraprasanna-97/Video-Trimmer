@@ -1,10 +1,12 @@
 from moviepy.editor import VideoFileClip
+from Statistics import Stats
 
 def createSubClips(source,destination,requiredDuration):
     subClips = []
-    inputVideo =  VideoFileClip(source)
+    inputVideo = VideoFileClip(source)
     videoDuraion = inputVideo.duration # in seconds
-    print("Video duration",videoDuraion)
+    Stats.set_video_duration(video_duration=videoDuraion)
+    Stats.set_subclip_duration(subclip_duration=requiredDuration)
     if requiredDuration <= videoDuraion:
         start = 0
         end = requiredDuration
@@ -25,6 +27,7 @@ def createSubClips(source,destination,requiredDuration):
         totalClips = len(subClips)
         for i in range(totalClips):
             subClips[i].write_videofile(f"{destination}\\{videoFileName} (part {i+1} of {totalClips}).mp4")
+            Stats.set_subclips_processed(i+1)
         print("Total clips = ", totalClips)
         inputVideo.close()
     else:
