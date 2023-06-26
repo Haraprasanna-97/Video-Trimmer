@@ -1,6 +1,7 @@
 from Script import createSubClips
 from Zip_files import createZip
 from tkinter import *
+from tkinter import ttk
 from tkinter import filedialog
 from moviepy.editor import VideoFileClip
 from Statistics import Stats
@@ -36,6 +37,7 @@ def setSourceFile():
 
 def setDestinationFolder():
     destinationFolderPath.set(filedialog.askdirectory())
+    staticsFrame.grid(row=4)
 
 def generate():
     global videoDuration
@@ -73,6 +75,9 @@ def generate():
             subClips[i].write_videofile(f"{destination}\\{videoFileName} (part {i+1} of {totalClips}).mp4")
             Stats.set_subclips_processed(i+1)
             totalSubclipsProcessed.set(Stats.get_subclips_processed())
+            Progress["value"] = Stats.get_processed_percentage()
+            print(Progress["value"])
+            Progress.update()
         print("Total clips = ", totalClips)
         inputVideo.close()
     else:
@@ -97,15 +102,18 @@ Button(root,text="Create ZIP file",command=zip).grid(row=3,column=1)
 Button(root,text="Exit",command=exit).grid(row=3,column=2)
 
 staticsFrame = Frame(root)
-Label(staticsFrame,text="Video duration").pack()
+Label(staticsFrame,text="Video duration (in seconds)").pack()
 VideoClipDurationLabel = Label(staticsFrame,textvariable=videoClipDuration)
 VideoClipDurationLabel.pack()
 Label(staticsFrame,text="Total subclips").pack()
 TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
 TotalSubclipsLabel.pack()
+
+Progress = ttk.Progressbar(root,orient=HORIZONTAL,length=100,mode="determinate")
+Progress.grid(row=5,column=1)
 # Label(staticsFrame,text="subclip duratoion").pack()
 # TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
 # TotalSubclipsLabel.pack()
-staticsFrame.grid(row=4)
+# staticsFrame.grid(row=4)
 
 root.mainloop()
