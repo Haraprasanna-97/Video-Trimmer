@@ -39,7 +39,7 @@ def setDestinationFolder():
 
 def generate():
     global videoDuration
-    # source = sourceFilePath.get()
+    # source = sourceFilePath.get() 
     destination = destinationFolderPath.get()
     requiredDuration = subclipDuration.get()
     # createSubClips(source=source,destination=destination,requiredDuration=requiredDuration)
