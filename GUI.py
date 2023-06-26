@@ -10,44 +10,61 @@ root.title("Video trimmer")
 
 sourceFilePath = StringVar()
 destinationFolderPath = StringVar()
-videoClipDuration = IntVar()
-subclipDuration = IntVar()
+videoClipDuration = DoubleVar()
+subclipDuration = IntVar(value=1)
+
+inputVideo = None
+videoDuration = None
 
 totalSubclips = IntVar()
 peecentCompleted = IntVar()
 totalSubclipsProcessed = IntVar()
 
 def setSourceFile():
+    global inputVideo, videoDuration
     sourceFilePath.set(filedialog.askopenfilename())
+    inputVideo = VideoFileClip(sourceFilePath.get())
+    videoDuration = inputVideo.duration
+    Stats.set_video_duration(video_duration=videoDuration)
+    Stats.set_subclip_duration(subclip_duration=subclipDuration.get())
+    videoClipDuration.set(videoDuration)
+    VideoClipDurationLabel.update()
+    totalSubclips.set(Stats.get_total_subclips())
+    TotalSubclipsLabel.update()
+    # subclipDuration.set(Stats.get_subclip_duration())
+    # SubclipDurationLabel.update()
 
 def setDestinationFolder():
     destinationFolderPath.set(filedialog.askdirectory())
 
 def generate():
-    source = sourceFilePath.get()
+    global videoDuration
+    # source = sourceFilePath.get()
     destination = destinationFolderPath.get()
     requiredDuration = subclipDuration.get()
     # createSubClips(source=source,destination=destination,requiredDuration=requiredDuration)
     subClips = []
-    inputVideo = VideoFileClip(source)
-    videoDuraion = inputVideo.duration # in seconds
-    Stats.set_video_duration(video_duration=videoDuraion)
-    Stats.set_subclip_duration(subclip_duration=requiredDuration)
-    videoClipDuration.set(videoClipDuration)
-    if requiredDuration <= videoDuraion:
+    # inputVideo = VideoFileClip(source)
+    # videoDuraion = inputVideo.duration # in seconds
+    # Stats.set_video_duration(video_duration=videoDuraion)
+    # Stats.set_subclip_duration(subclip_duration=requiredDuration)
+    # videoClipDuration.set(videoDuraion)
+    # VideoClipDurationLabel.update()
+    # print(videoClipDuration.get(),videoDuraion)
+    if requiredDuration <= videoDuration:
         start = 0
         end = requiredDuration
         subClip = inputVideo.subclip(start,end)
         subClips.append(subClip)
         remainingDuration = None
-        while end < videoDuraion:
+        while end < videoDuration:
             start = end
-            remainingDuration = videoDuraion - start
+            remainingDuration = videoDuration - start
             if remainingDuration >= requiredDuration:
                 end = start + requiredDuration
             else:
                 end = start + remainingDuration
-            if start < videoDuraion :
+            if start < videoDuration :
                 subClip = inputVideo.subclip(start,end)
                 subClips.append(subClip)
         videoFileName = inputVideo.filename.split(".")[0].split("/")[-1]
@@ -59,7 +76,7 @@ def generate():
         print("Total clips = ", totalClips)
         inputVideo.close()
     else:
-        print(f"Video duraion = {videoDuraion}\nClip duration = {requiredDuration}\nCannot create clips as the clip duration is greater than the input videoduration")
+        print(f"Video duraion = {videoDuration}\nClip duration = {requiredDuration}\nCannot create clips as the clip duration is greater than the input videoduration")
 
 def zip():
     createZip(destinationFolderPath.get())
@@ -81,10 +98,14 @@ Button(root,text="Exit",command=exit).grid(row=3,column=2)
 
 staticsFrame = Frame(root)
 Label(staticsFrame,text="Video duration").pack()
-Label(staticsFrame,textvariable=videoClipDuration).pack()
+VideoClipDurationLabel = Label(staticsFrame,textvariable=videoClipDuration)
+VideoClipDurationLabel.pack()
 Label(staticsFrame,text="Total subclips").pack()
-Label(staticsFrame,text="subclip duratoion").pack()
-Label(staticsFrame,text="Total subclips").pack()
+TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
+TotalSubclipsLabel.pack()
+# Label(staticsFrame,text="subclip duratoion").pack()
+# TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
+# TotalSubclipsLabel.pack()
 staticsFrame.grid(row=4)
 
 root.mainloop()
