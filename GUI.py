@@ -41,6 +41,8 @@ def setDestinationFolder():
 
 def generate():
     global videoDuration
+    Progress.grid(row=5,column=1)
+    ProgressLabel.grid(row=5,column=2)
     # source = sourceFilePath.get()
     destination = destinationFolderPath.get()
     requiredDuration = subclipDuration.get()
@@ -76,8 +78,8 @@ def generate():
             Stats.set_subclips_processed(i+1)
             totalSubclipsProcessed.set(Stats.get_subclips_processed())
             Progress["value"] = Stats.get_processed_percentage()
-            print(Progress["value"])
             Progress.update()
+            ProgressLabel.config(text=f"{Progress['value']}% cmplete")
         print("Total clips = ", totalClips)
         inputVideo.close()
     else:
@@ -110,7 +112,9 @@ TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
 TotalSubclipsLabel.pack()
 
 Progress = ttk.Progressbar(root,orient=HORIZONTAL,length=100,mode="determinate")
-Progress.grid(row=5,column=1)
+ProgressLabel = Label(root)
+
+# Progress.grid(row=5,column=1)
 # Label(staticsFrame,text="subclip duratoion").pack()
 # TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
 # TotalSubclipsLabel.pack()
