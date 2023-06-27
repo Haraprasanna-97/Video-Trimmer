@@ -41,8 +41,8 @@ def setDestinationFolder():
 
 def generate():
     global videoDuration
-    Progress.grid(row=5,column=1)
-    ProgressLabel.grid(row=5,column=2)
+    Progress.grid(row=0,column=2)
+    ProgressLabel.grid(row=1,column=2)
     # source = sourceFilePath.get()
     destination = destinationFolderPath.get()
     requiredDuration = subclipDuration.get()
@@ -87,6 +87,9 @@ def generate():
 
 def zip():
     createZip(destinationFolderPath.get())
+
+def exitApp():
+    exit()
     
 Label(root,text="Source video file :").grid(row=0,column=0)
 Button(root,text="Choose file",command=setSourceFile).grid(row=0,column=1)
@@ -101,18 +104,18 @@ Entry(root,textvariable = subclipDuration).grid(row=2,column=1)
 
 Button(root,text="Generate clips",command=generate).grid(row=3,column=0)
 Button(root,text="Create ZIP file",command=zip).grid(row=3,column=1)
-Button(root,text="Exit",command=exit).grid(row=3,column=2)
+Button(root,text="Exit",command=exitApp).grid(row=3,column=2)
 
 staticsFrame = Frame(root)
-Label(staticsFrame,text="Video duration (in seconds)").pack()
+Label(staticsFrame,text="Video duration (in seconds)").grid(row=0,column=0)
 VideoClipDurationLabel = Label(staticsFrame,textvariable=videoClipDuration)
-VideoClipDurationLabel.pack()
-Label(staticsFrame,text="Total subclips").pack()
+VideoClipDurationLabel.grid(row=0,column=1)
+Label(staticsFrame,text="Total subclips").grid(row=1,column=0)
 TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
-TotalSubclipsLabel.pack()
+TotalSubclipsLabel.grid(row=1,column=1)
 
-Progress = ttk.Progressbar(root,orient=HORIZONTAL,length=100,mode="determinate")
-ProgressLabel = Label(root)
+Progress = ttk.Progressbar(staticsFrame,orient=HORIZONTAL,length=100,mode="determinate")
+ProgressLabel = Label(staticsFrame)
 
 # Progress.grid(row=5,column=1)
 # Label(staticsFrame,text="subclip duratoion").pack()
