@@ -17,8 +17,8 @@ root.title("Video trimmer")
 Previous = ""
 sourceFilePath = None
 inputVideo = None
-videoDuration = 1
-subclipDuration = 1
+videoDuration = None
+subclipDuration = None
 totalSubclips = None
 destinationFolderPath = None
 
@@ -33,6 +33,7 @@ def setSourceFile():
     FileNameLabel.config(text=f"Source video file : {sourceFilePath}")
     FileNameButton.config(text="Change file")
     videoDuration = inputVideo.duration
+    # staticsFrame.pack(side=RIGHT,fill=X)
     # Stats.set_video_duration(video_duration=videoDuration)
     # Stats.set_subclip_duration(subclip_duration=subclipDuration)
     # VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
@@ -65,7 +66,8 @@ def generate():
     # print(videoClipDuration.get(),videoDuraion)
     if subclipDuration <= videoDuration:
         start = 0
-        end = subclipDuration
+        # end = subclipDuration
+        end = Stats.get_subclip_duration()
         subClip = inputVideo.subclip(start,end)
         subClips.append(subClip)
         remainingDuration = None
@@ -101,7 +103,7 @@ def exitApp():
     exit()
     
 def setClipStats(event):
-    global Stats, videoDuration,Previous
+    global Stats, videoDuration, Previous, subclipDuration
     if(event.char == "\b"):
         Previous = Previous[:-1]
     else:
@@ -111,6 +113,8 @@ def setClipStats(event):
     VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
     totalSubclips = Stats.get_total_subclips()
     TotalSubclipsLabel.config(text=f"{totalSubclips} clips")
+    videoDuration = Stats.get_video_duration()
+    subclipDuration = Stats.get_subclip_duration()
     print("video Duration",Stats.get_video_duration())
     print("subclip Duration",Stats.get_subclip_duration())
     

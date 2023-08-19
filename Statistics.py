@@ -1,8 +1,8 @@
 import math
 class Statistics:
-    def __init__(self) -> None:
-        self.video_duration = 0
-        self.subclip_duration = 0
+    def __init__(self,video_duration,subclip_duration) -> None:
+        self.video_duration = video_duration
+        self.subclip_duration = subclip_duration
         self.total_subclips = 0
         self.subclips_processed = 0
     
