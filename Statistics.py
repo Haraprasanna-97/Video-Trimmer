@@ -30,7 +30,3 @@ class Statistics:
 
     def get_subclip_duration(self):
         return self.subclip_duration
-
-# print(A.get_total_subclips())
-# A.set_subclips_processed(1)
-# print(A.get_processed_percentage())

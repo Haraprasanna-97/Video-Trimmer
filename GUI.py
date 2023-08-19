@@ -10,10 +10,6 @@ Stats = None
 root = Tk()
 root.title("Video trimmer")
 
-# destinationFolderPath = StringVar()
-# videoClipDuration = DoubleVar()
-# subclipDuration = IntVar(value=1)
-
 Previous = ""
 sourceFilePath = None
 inputVideo = None
@@ -22,10 +18,6 @@ subclipDuration = None
 totalSubclips = None
 destinationFolderPath = None
 
-# totalSubclips = IntVar()
-# peecentCompleted = IntVar()
-# totalSubclipsProcessed = IntVar()
-
 def setSourceFile():
     global inputVideo, videoDuration, totalSubclips, sourceFilePath
     sourceFilePath = filedialog.askopenfilename()
@@ -33,14 +25,6 @@ def setSourceFile():
     FileNameLabel.config(text=f"Source video file : {sourceFilePath}")
     FileNameButton.config(text="Change file")
     videoDuration = inputVideo.duration
-    # staticsFrame.pack(side=RIGHT,fill=X)
-    # Stats.set_video_duration(video_duration=videoDuration)
-    # Stats.set_subclip_duration(subclip_duration=subclipDuration)
-    # VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
-    # totalSubclips = Stats.get_total_subclips()
-    # TotalSubclipsLabel.config(text=f"{totalSubclips} clips")
-    # subclipDuration.set(Stats.get_subclip_duration())
-    # SubclipDurationLabel.update()
 
 def setDestinationFolder():
     global destinationFolderPath
@@ -52,18 +36,7 @@ def setDestinationFolder():
 def generate():
     global videoDuration, destinationFolderPath, subclipDuration,Stats
     ProgressBarFrame.pack()
-    # source = sourceFilePath.get()
-    # destination = destinationFolderPath.get()
-    # requiredDuration = subclipDuration
-    # createSubClips(source=source,destination=destination,requiredDuration=requiredDuration)
     subClips = []
-    # inputVideo = VideoFileClip(source)
-    # videoDuraion = inputVideo.duration # in seconds
-    # Stats.set_video_duration(video_duration=videoDuraion)
-    # Stats.set_subclip_duration(subclip_duration=requiredDuration)
-    # videoClipDuration.set(videoDuraion)
-    # VideoClipDurationLabel.update()
-    # print(videoClipDuration.get(),videoDuraion)
     if subclipDuration <= videoDuration:
         start = 0
         # end = subclipDuration
@@ -108,15 +81,12 @@ def setClipStats(event):
         Previous = Previous[:-1]
     else:
         Previous += event.char
-    print(Previous)
     Stats = Statistics(videoDuration,float(Previous))
     VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
     totalSubclips = Stats.get_total_subclips()
     TotalSubclipsLabel.config(text=f"{totalSubclips} clips")
     videoDuration = Stats.get_video_duration()
     subclipDuration = Stats.get_subclip_duration()
-    print("video Duration",Stats.get_video_duration())
-    print("subclip Duration",Stats.get_subclip_duration())
     
 Top = Frame(root)
 controlsFrame = Frame(Top)
@@ -124,13 +94,11 @@ FileNameLabel = Label(controlsFrame,text="Source video file : ")
 FileNameLabel.grid(row=0,column=0)
 FileNameButton = Button(controlsFrame,text="Choose file",command=setSourceFile)
 FileNameButton.grid(row=0,column=1)
-# Label(controlsFrame,textvariable = sourceFilePath).grid(row=0,column=2)
 
 DestinationFolderLabel = Label(controlsFrame,text="Destination folder :")
 DestinationFolderLabel.grid(row=1,column=0)
 DestinationFolderButton = Button(controlsFrame,text="Choose folder", command=setDestinationFolder)
 DestinationFolderButton.grid(row=1,column=1)
-# Label(controlsFrame,textvariable = destinationFolderPath).grid(row=1,column=2,padx=3)
 
 Label(controlsFrame,text="Subclip duration (in seconds):").grid(row=2,column=0)
 SubclipDurationEntry = Entry(controlsFrame)
@@ -157,11 +125,5 @@ Progress = ttk.Progressbar(ProgressBarFrame,orient=HORIZONTAL,length=300,mode="d
 Progress.grid(row=0,column=0)
 ProgressLabel = Label(ProgressBarFrame)
 ProgressLabel.grid(row=0,column=1)
-
-# Progress.grid(row=5,column=1)
-# Label(staticsFrame,text="subclip duratoion").pack()
-# TotalSubclipsLabel = Label(staticsFrame,textvariable=totalSubclips)
-# TotalSubclipsLabel.pack()
-# staticsFrame.grid(row=4)
 
 root.mainloop()
