@@ -5,7 +5,8 @@ from tkinter import filedialog
 from moviepy.editor import VideoFileClip
 from Statistics import Statistics
 
-Stats = Statistics()
+Stats = None
+
 root = Tk()
 root.title("Video trimmer")
 
@@ -13,6 +14,7 @@ root.title("Video trimmer")
 # videoClipDuration = DoubleVar()
 # subclipDuration = IntVar(value=1)
 
+Previous = ""
 sourceFilePath = None
 inputVideo = None
 videoDuration = 1
@@ -31,11 +33,11 @@ def setSourceFile():
     FileNameLabel.config(text=f"Source video file : {sourceFilePath}")
     FileNameButton.config(text="Change file")
     videoDuration = inputVideo.duration
-    Stats.set_video_duration(video_duration=videoDuration)
-    Stats.set_subclip_duration(subclip_duration=subclipDuration)
-    VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
-    totalSubclips = Stats.get_total_subclips()
-    TotalSubclipsLabel.config(text=f"{totalSubclips} clips")
+    # Stats.set_video_duration(video_duration=videoDuration)
+    # Stats.set_subclip_duration(subclip_duration=subclipDuration)
+    # VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
+    # totalSubclips = Stats.get_total_subclips()
+    # TotalSubclipsLabel.config(text=f"{totalSubclips} clips")
     # subclipDuration.set(Stats.get_subclip_duration())
     # SubclipDurationLabel.update()
 
@@ -47,7 +49,7 @@ def setDestinationFolder():
     staticsFrame.pack(side=RIGHT,fill=X)
 
 def generate():
-    global videoDuration, destinationFolderPath, subclipDuration
+    global videoDuration, destinationFolderPath, subclipDuration,Stats
     ProgressBarFrame.pack()
     # source = sourceFilePath.get()
     # destination = destinationFolderPath.get()
@@ -98,6 +100,20 @@ def zip():
 def exitApp():
     exit()
     
+def setClipStats(event):
+    global Stats, videoDuration,Previous
+    if(event.char == "\b"):
+        Previous = Previous[:-1]
+    else:
+        Previous += event.char
+    print(Previous)
+    Stats = Statistics(videoDuration,float(Previous))
+    VideoClipDurationLabel.config(text=f"{videoDuration} seconds")
+    totalSubclips = Stats.get_total_subclips()
+    TotalSubclipsLabel.config(text=f"{totalSubclips} clips")
+    print("video Duration",Stats.get_video_duration())
+    print("subclip Duration",Stats.get_subclip_duration())
+    
 Top = Frame(root)
 controlsFrame = Frame(Top)
 FileNameLabel = Label(controlsFrame,text="Source video file : ")
@@ -113,7 +129,9 @@ DestinationFolderButton.grid(row=1,column=1)
 # Label(controlsFrame,textvariable = destinationFolderPath).grid(row=1,column=2,padx=3)
 
 Label(controlsFrame,text="Subclip duration (in seconds):").grid(row=2,column=0)
-Entry(controlsFrame,textvariable = subclipDuration).grid(row=2,column=1)
+SubclipDurationEntry = Entry(controlsFrame)
+SubclipDurationEntry.bind("<Key>",setClipStats)
+SubclipDurationEntry.grid(row=2,column=1)
 
 Button(controlsFrame,text="Generate clips",command=generate).grid(row=3,column=0)
 Button(controlsFrame,text="Create ZIP file",command=zip).grid(row=3,column=1)
